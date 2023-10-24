@@ -33,7 +33,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
             .authorizeRequests()
                 .antMatchers("/auth/login").permitAll()
                 .antMatchers("/api/users/register-admin").permitAll()
-                .antMatchers("/api/currencies/**").hasRole("ADMIN")
+                .antMatchers("/api/currencies/**").permitAll()
                 .anyRequest().authenticated();
     }
 

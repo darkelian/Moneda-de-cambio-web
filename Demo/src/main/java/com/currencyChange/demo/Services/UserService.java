@@ -21,7 +21,7 @@ public class UserService {
         User user = new User();
         user.setUsername(registrationDto.getUsername());
         user.setPassword(passwordEncoder.encode(registrationDto.getPassword()));
-        user.setRole("ADMIN");
+        user.setRole("ROLE_ADMIN");
         return userRepository.save(user);
     }
 
