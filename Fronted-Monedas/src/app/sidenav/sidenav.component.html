@@ -1,0 +1,27 @@
+<mat-sidenav-container>
+    <mat-sidenav #sidenav mode="over" position="end">
+        <form>
+            <div>
+                <mat-form-field appearance="fill">
+                    <mat-label>Usuario</mat-label>
+                    <input matInput type="text">
+                </mat-form-field>
+            </div>
+            <div>
+                <mat-form-field appearance="fill">
+                    <mat-label>Contraseña</mat-label>
+                    <input matInput type="password">
+                </mat-form-field>
+            </div>
+            <div>
+                <button mat-raised-button type="submit">Iniciar sesión</button>
+            </div>
+        </form>
+    </mat-sidenav>
+
+    <mat-sidenav-content>
+        <!-- Aquí puedes agregar el contenido principal de tu aplicación, como el toolbar -->
+        <ng-content></ng-content>
+    </mat-sidenav-content>
+</mat-sidenav-container>
+

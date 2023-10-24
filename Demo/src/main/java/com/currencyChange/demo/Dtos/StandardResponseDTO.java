@@ -10,10 +10,10 @@ public class StandardResponseDTO {
     @JsonInclude(JsonInclude.Include.NON_NULL)
     private String message = null;
     @JsonInclude(JsonInclude.Include.NON_NULL)
-    private String data = null;
+    private Object data = null;
     private int cout;
 
-    public StandardResponseDTO FullSuccess(String data){
+    public StandardResponseDTO FullSuccess(Object data){
         this.success = true;
         this.data = data;
         this.cout = 1;

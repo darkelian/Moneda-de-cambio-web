@@ -23,17 +23,27 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     private JwtConfig jwtConfig;
 
     @Autowired
+    private JwtTokenFilter jwtTokenFilter;
+
+    @Autowired
     private CustomUserDetailsService userDetailsService;
+
+    public SecurityConfig(JwtConfig jwtConfig,JwtTokenFilter jwtTokenFilter,
+            CustomUserDetailsService userDetailsService){
+        this.jwtConfig =jwtConfig;
+        this.jwtTokenFilter = jwtTokenFilter;
+        this.userDetailsService = userDetailsService;
+    }
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http
             .csrf().disable()
-            .addFilterBefore(new JwtTokenFilter(), UsernamePasswordAuthenticationFilter.class)
+            .addFilterBefore(jwtTokenFilter, UsernamePasswordAuthenticationFilter.class)
             .authorizeRequests()
                 .antMatchers("/auth/login").permitAll()
                 .antMatchers("/api/users/register-admin").permitAll()
-                .antMatchers("/api/currencies/**").permitAll()
+                .antMatchers("/api/currencies/**").hasRole("ADMIN")
                 .anyRequest().authenticated();
     }
 

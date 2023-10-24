@@ -1,10 +1,11 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { LoginComponent } from './login/login.component';
+import { LoginComponent } from './login/login.component'; // Asume que este es tu componente de login
+import { DashboardComponent } from './dashboard/dashboard.component'; // Asume que tienes un componente para el dashboard
 
 const routes: Routes = [
-  { path: 'login', component: LoginComponent },
-  { path: '', redirectTo: '/login', pathMatch: 'full' }  // Esto redirige la ruta raíz al login
+  { path: '', component: LoginComponent },
+  { path: 'dashboard', component: DashboardComponent }
 ];
 
 @NgModule({

@@ -1,37 +1,16 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { BehaviorSubject } from 'rxjs';
-import { tap } from 'rxjs/operators';
-
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthService {
-  private loggedIn = new BehaviorSubject<boolean>(false);
+  private apiUrl = 'URL_DE_TU_BACKEND'; // Cambia esto por la URL de tu backend
 
   constructor(private http: HttpClient) { }
 
-  login(username: string, password: string) {
-    const url = 'http://localhost:8090/auth/login';  // Asegúrate de que esta URL sea correcta
-    const body = { username, password };
-  
-    return this.http.post(url, body).pipe(
-      tap((response: any) => {
-        if (response && response.success) {
-          this.loggedIn.next(true);
-        } else {
-          this.loggedIn.next(false);
-        }
-      })
-    );
-  }
-
-  logout() {
-    this.loggedIn.next(false);
-  }
-
-  isLoggedIn() {
-    return this.loggedIn.asObservable();
+  login(usuario: string, contrasena: string) {
+    const body = { usuario, contrasena };
+    return this.http.post(`${this.apiUrl}/ruta_del_login`, body); // Ajusta la ruta según tu backend
   }
 }

@@ -9,6 +9,7 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
+import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import com.currencyChange.demo.Services.CustomUserDetailsService;
@@ -16,14 +17,18 @@ import com.currencyChange.demo.Services.CustomUserDetailsService;
 import java.io.IOException;
 import javax.servlet.ServletException;
 
-
+@Component
 public class JwtTokenFilter extends OncePerRequestFilter {
 
     @Autowired
     private JwtConfig jwtConfig;
-
     @Autowired
     private CustomUserDetailsService userDetailsService;
+
+    public JwtTokenFilter(JwtConfig jwtConfig, CustomUserDetailsService userDetailsService) {
+        this.jwtConfig = jwtConfig;
+        this.userDetailsService = userDetailsService;
+    }
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {

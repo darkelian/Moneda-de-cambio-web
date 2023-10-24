@@ -5,6 +5,7 @@ import com.currencyChange.demo.Dtos.StandardResponseDTO;
 import com.currencyChange.demo.Models.Currency;
 import com.currencyChange.demo.Services.CurrencyService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -22,42 +23,47 @@ public class CurrencyController {
     public ResponseEntity<StandardResponseDTO> getAllCurrencies() {
         List<Currency> currencies = currencyService.getAllCurrencies();
         if (currencies != null && !currencies.isEmpty()) {
-            return ResponseEntity.ok(new StandardResponseDTO().FullSuccess("Currencies retrieved successfully"));
+            return new ResponseEntity<>(
+                new StandardResponseDTO().FullSuccess(currencies),
+                HttpStatus.OK);
         } else {
-            return ResponseEntity.ok(new StandardResponseDTO().FailSuccess("No currencies found"));
+            return new ResponseEntity<>(
+                new StandardResponseDTO().FailSuccess("No currencies found"),
+                HttpStatus.OK);
         }
     }
 
     // Obtener una moneda por ID
-    @GetMapping("/{id}")
-    public ResponseEntity<StandardResponseDTO> getCurrencyById(@PathVariable Long id) {
+    @GetMapping(params = "id")
+    public ResponseEntity<StandardResponseDTO> getCurrencyById(@RequestParam Long id) {
         return currencyService.getCurrencyById(id)
-                .map(currency -> ResponseEntity.ok(new StandardResponseDTO().FullSuccess("Currency retrieved successfully")))
+                .map(currency -> ResponseEntity.ok(new StandardResponseDTO().FullSuccess(currency)))
                 .orElse(ResponseEntity.ok(new StandardResponseDTO().FailSuccess("Currency not found")));
     }
+    
 
     // Crear una nueva moneda
     @PostMapping
     public ResponseEntity<StandardResponseDTO> createCurrency(@RequestBody Currency currency) {
         Currency savedCurrency = currencyService.saveCurrency(currency);
         if (savedCurrency != null) {
-            return ResponseEntity.ok(new StandardResponseDTO().FullSuccess("Currency saved successfully"));
+            return ResponseEntity.ok(new StandardResponseDTO().FullSuccess(currency));
         } else {
             return ResponseEntity.ok(new StandardResponseDTO().FailSuccess("Failed to save currency"));
         }
     }
 
     // Actualizar una moneda
-    @PutMapping("/{id}")
-    public ResponseEntity<StandardResponseDTO> updateCurrency(@PathVariable Long id, @RequestBody Currency currency) {
+    @PutMapping
+    public ResponseEntity<StandardResponseDTO> updateCurrency(@RequestParam Long id, @RequestBody Currency currency) {
         return currencyService.updateCurrency(id, currency)
-                .map(updatedCurrency -> ResponseEntity.ok(new StandardResponseDTO().FullSuccess("Currency updated successfully")))
+                .map(updatedCurrency -> ResponseEntity.ok(new StandardResponseDTO().FullSuccess(currency)))
                 .orElse(ResponseEntity.ok(new StandardResponseDTO().FailSuccess("Failed to update currency")));
     }
 
     // Eliminar una moneda
-    @DeleteMapping("/{id}")
-    public ResponseEntity<StandardResponseDTO> deleteCurrency(@PathVariable Long id) {
+    @DeleteMapping
+    public ResponseEntity<StandardResponseDTO> deleteCurrency(@RequestParam Long id) {
         if (currencyService.deleteCurrency(id)) {
             return ResponseEntity.ok(new StandardResponseDTO().FullSuccess("Currency deleted successfully"));
         } else {

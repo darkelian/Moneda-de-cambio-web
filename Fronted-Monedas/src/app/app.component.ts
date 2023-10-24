@@ -6,5 +6,5 @@ import { Component } from '@angular/core';
   styleUrls: ['./app.component.css']
 })
 export class AppComponent {
-  title = 'Fronted-Monedas';
+  title = 'NombreDeTuAplicacion'; // Cambia 'NombreDeTuAplicacion' al nombre que desees para tu aplicación
 }
