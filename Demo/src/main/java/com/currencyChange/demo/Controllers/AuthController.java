@@ -22,7 +22,7 @@ public class AuthController {
     public ResponseEntity<StandardResponseDTO> authenticate(@RequestBody LoginRequest loginRequest) {
         String token = jwtAuthService.authenticateAndGenerateToken(loginRequest.getUsername(), loginRequest.getPassword());
         if (token != null) {
-            return new ResponseEntity<>(new StandardResponseDTO().FullSuccess("Authentication failed"),HttpStatus.OK);
+            return new ResponseEntity<>(new StandardResponseDTO().FullSuccess(token),HttpStatus.OK);
         } else {
             return new ResponseEntity<>(new StandardResponseDTO().FailSuccess("Authentication failed"),HttpStatus.OK);
         }
